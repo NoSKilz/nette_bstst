@@ -1,0 +1,41 @@
+parameters:
+
+
+application:
+        debugger: true
+        errorPresenter: Error
+        mapping:
+                *: App\*Module\Presenters\*Presenter
+
+
+session:
+        expiration: 30 days
+        cookieHttponly: 1
+        cookieLifetime: 0
+        entropyFile: /dev/urandom
+        entropyLength: 512
+        hashFunction: whirlpool
+        hashBitsPerCharacter: 5
+        useOnlyCookies: 1
+        useTransSid: 1
+        sessionName: sid
+       # cookieSecure: 1 https
+
+services:
+	router: App\RouterFactory::createRouter
+
+http:
+    headers:
+        Referrer-Policy: no-referrer
+        X-frame-Options: SAMEORIGIN
+        X-Content-Type-Options: nosniff
+        X-XSS-Protection: 1 
+    csp:
+        script-src: [
+            nonce
+            self
+            strict-dynamic
+        ]
+        object-src: [
+            none
+        ]

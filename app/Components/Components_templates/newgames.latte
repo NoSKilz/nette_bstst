@@ -1,0 +1,22 @@
+{* Latte template *}
+
+{block content}
+<div id="new">
+    <p id="n-p">NOVĚ VYDANÉ HRY</p>
+    <div id="new-container">
+        <a n:foreach="$news as $new" href='product.php?product={$new->product_id|striptags}'><div class='new-prod'>
+                <div class='flip'>
+                    <div class='front'>
+                        <img src='images/{$new->picture|striptags}' alt='Obrázek pro hru {$new->product_name|striptags}'>
+                        <p class='name'>{$new->product_name|striptags} ({$new->platform_name|striptags})</p>
+                        <p class='price'>{$new->price|striptags} Kč</p>
+                    </div>
+                        <div class='back'>{$new->description|striptags|truncate:150}</div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div id="btn-container">
+        <button id="lmbtn" data-offset="8">Načíst další</button>
+    </div>
+</div>

@@ -1,0 +1,378 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 15.9.2017, 20:29:39
+    Author     : NoSkilz
+*/
+@import 'shared.less';
+#new
+{
+    width: 675px;
+    display: inline-block;
+    background-color: darken(@d-d-white,20%);
+    padding-top: 5px;
+    vertical-align: top;
+    margin-left: 10px;
+    margin-right: 5px;
+    position: relative;
+    margin-top: 30px;
+    a
+    {      
+        .new-prod
+        {
+            display: inline-block;
+            height: 280px;
+            width: 158px;
+            float: left;
+            margin-left: 8px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            &:hover
+            {
+                .flip
+                {
+                    .transform-rotateY(180deg);
+                    background-color: darken(@d-d-white,40%);
+                }
+            }   
+            .flip
+            {
+                .transition(0.6s);
+                height: inherit;
+                width: inherit;
+                position: relative;
+                .transform-style();
+                background-color: darken(@d-d-white,40%);
+                .front
+                {
+                    height: inherit;
+                    width: inherit;
+                    .backface-visibility();
+                    .transform-rotateY(0deg);
+                    img
+                    {
+                        width: inherit;
+                        height: 160px;
+                    }
+                    .name
+                    {
+                        padding: 6px;
+                        color: @white;
+                    }
+                    .price
+                    {
+                        padding: 6px;
+                        padding-top: 0;
+                        color: @white;
+                    }
+                }
+                .back
+                {
+                    height: 270px;
+                    width: 148px;
+                    .backface-visibility();
+                    .transform-rotateY(180deg);
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    padding: 5px;
+                    color: @white;
+                    word-wrap: break-word;
+                    overflow: hidden;
+                }
+            }
+        }
+    }
+}
+#btn-container
+{
+    height: 100px;
+    width: 300px;
+    margin: 30px auto;
+    clear: both;
+    padding-top: 25px;
+}
+#lmbtn
+{
+    height: 100px;
+    width: 300px;
+    background-color: @l-black;
+    color: @white;
+    font-size: 30px;
+    cursor: pointer;
+    &:hover
+    {
+        background-color: @d-white;
+        color: @black;   
+    }
+}
+#n-p
+{
+    position: absolute;
+    padding: 6px;
+    left: 0;
+    top: -30px;
+}
+#b-p
+{
+    position: absolute;
+    padding: 6px;
+    right: 0;
+    top: -30px;
+}
+#best
+{
+    width: 295px;
+    display: inline-block;
+    margin-top: 30px;
+    position: relative;
+    .product
+    {
+        border-top: 1px solid @d-white;
+        border-left: 1px solid @d-white;
+        border-right: 1px solid @d-white;
+        background-color: @black;
+        padding: 5px;
+        &:hover
+        {
+            background-color: lighten(@black,20%);
+        }
+        &:last-child
+        {
+            border-bottom: 1px solid @d-white;
+        }
+        &:after
+        {
+            .clear();
+        }
+        a
+        {
+            color: @white !important;
+            .p-price
+            {
+                float: right;
+            }
+            .p-name
+            {
+                display: inline-block;
+            }
+        }
+    }
+}
+#new-container
+{
+    div
+    {
+        .zoznam
+        {
+            display: none !important;
+            .eq
+            {
+                display: none !important;
+            }
+        }
+    }
+}
+
+//------------------------------------------------------------------------------
+
+@media screen and(max-width: 1000px)
+{
+    #content
+    {
+        width: 100%;
+        margin: 0;
+    }
+    #b-p
+    {
+        right: 18%;
+    }
+    #n-p
+    {
+        width: 137.438px;
+        margin-left: -137.438px/2px;
+        left: 50%;
+    }
+    #best
+    {
+        display: block;
+        margin: 0 auto;
+        margin-top: 30px;
+    }
+    #btn-container
+    {
+        display: none;
+    }
+    #new
+    {
+        margin: 0 auto;
+        display: block;
+        margin-top: 30px;
+        &:after
+        {
+            .clear();
+        }
+    }
+}
+@media screen and(max-width: 700px)
+{
+    #new
+    {
+        width: 100%;
+    }
+    #navigation-container
+    {
+        display: none;
+    }
+    #navigation
+    {
+        height: 100%;
+    }
+    #accordion-container
+    {
+        display: block;
+        .accordion
+        {
+            width: 100%;
+            padding: 18px;
+            text-align: center;
+            background-color: @black;
+            color: @white;
+            font-size: 25px;
+            border-bottom: 1px solid @white;
+        }
+        .active
+        {
+            background-color: @l-black; 
+        }
+        .panel
+        {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            .genre-ul
+            {
+                width: 100%;
+                text-align: center;
+                .genre
+                {
+                    line-height: 60px;
+                    font-size: 25px;
+                    a
+                    {
+                        color: @white;
+                    }
+                }
+            }
+        }
+    }
+}
+@media screen and(max-width: 680px)
+{
+    #new-container
+    {
+        width: 498px;
+        margin: 0 auto;
+    }
+}
+@media screen and(max-width: 555px)
+{
+    #cart-btn
+    {
+        position: static;
+        width: 100%;
+        display: block;
+        margin-top: 0;
+    }
+    #suggestions-container
+    {
+        width: 100%;
+    }
+    #form-container
+    {
+        margin: 0;
+        width: 100%;
+        height: 64px;
+        form
+        {
+            display: block;
+            height: 64px;
+            input
+            {
+                &[type="search"]
+                {
+                    width: 100%;
+                    height: 28px;
+                    margin-top: 0;
+                }
+                &[type="submit"]
+                {
+                    width: 100%;
+                    height: 28px;
+                }
+            }
+        }
+    }
+    #search
+    {
+        height: 92px;
+    }
+}
+@media screen and(max-width: 514px)
+{
+    #new-container
+    {
+        width: 332px;
+    }
+}
+@media screen and(max-width: 415px)
+{
+    #reg-log
+    {
+        height: 100px;
+        button
+        {
+            display: block;
+            width: 100%;
+            height: 50px;
+        }
+    }
+    #register,#login
+    {
+        width: 100%;
+        margin: 0;
+        margin-top: 20px;
+        padding: 0;
+        padding-top: 60px;
+    }
+    #register-button
+    {
+        border-right: 0;
+        border-bottom: 1px solid @d-white;
+    }
+}
+@media screen and(max-width: 350px)
+{
+    #new-container
+    {
+        width: 168px;
+    }
+    #b-p
+    {
+        right: 50%;
+        width: 173.484px;
+        margin-right: -96.742px
+    }
+    #best
+    {
+        width: 100%;
+    }
+    #content
+    {
+        width: 100%;
+        margin: 0;
+    }
+}

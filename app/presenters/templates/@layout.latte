@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+        <title>Some title</title>
+        <link rel="canonical" href="http://www.bstst.8u.cz">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="keywords" content="maturita,eshop" >
+        <meta name="description" content="Projekt dlouhodobé maturitní práce.">
+        <!--GOOGLE+-->
+        <link rel="author" href="https://plus.google.com/u/0/115111710746527975391">
+        <link rel="publisher" href="">
+        <link type="text/css" href="https://fonts.googleapis.com/css?family=Jura" rel="stylesheet">
+        <link type="text/css" href="{$basePath}/custom/css/main.min.css" rel="stylesheet">
+        <link rel="icon" type="image/gif" href="{$basePath}/favicon.ico" />
+        <title>{ifset title}{include title|stripHtml} | {/ifset}Nette Web</title>
+    </head>
+    <body>
+        <noscript>
+            K správnému chodu stránky je potřeba mít aktivovaný JavaScript.
+        </noscript>
+        <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+        <div id="content">
+            {include header}
+            <div id="main">
+                {include content}
+            </div>
+            <footer>
+                    <p>© 2016 <a href="#">Radek Šimíček</a>, All Rights Reserved.</p>
+            </footer>
+        </div>
+        {block scripts}
+        <script src="https://nette.github.io/resources/js/netteForms.min.js" n:nonce></script>
+        <script src="{$basePath}/custom/js/main.script.min.js" n:nonce></script>
+        <script src="{$basePath}/custom/js/load_more.min.js" n:nonce></script>
+        <script src="{$basePath}/custom/js/suggestions.min.js" n:nonce></script>
+        <script src="{$basePath}/custom/js/char_counter.min.js" n:nonce></script>
+        {/block}
+    </body>
+</html>
