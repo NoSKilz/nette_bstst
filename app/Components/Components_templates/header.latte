@@ -3,6 +3,45 @@
 {block content}
 <header>
     <div id="reg-log">
+        {if $user->loggedIn}
+        <p>Jste přihlášen jako Admin</p>
+        <div class='adm-container'>
+            <a href='administration.php' class='adm'>Vstup do Administrace</a>
+        </div>
+        {else}
+        <button id='register-button'>
+            Registrace
+        </button>
+        <button id='login-button'>
+            Přihlášení
+        </button>
+        <div id='reglog-modal' style='display: none;'>
+            {form signInForm}
+            <span class='close cursor'>&times;</span>
+            {label lusername /}
+            {input lusername}
+            {label lpassword /}
+            {input lpassword}
+            {input lsubmit}
+            <p id='login-p'>Nemáte účet? <span id='login-span'>Zaregistrujte se.</span></p>
+            {/form}
+            {form registerForm}
+            <span class='close cursor'>&times;</span>
+            {label rusername /}
+            {input rusername}
+            {label rpassword /}
+            {input rpassword}
+            {label checkpassword /}
+            {input checkpassword}
+            {label email /}
+            {input email}
+            {label checkemail /}
+            {input checkemail}
+            {input rsubmit}
+            <p id='register-p'>Už máte účet? <span id='register-span'>Přihlásit se.</span></p>
+            {/form}
+        </div>
+        {/if}
     </div>
     <div id="search">
         <div id="form-container">
