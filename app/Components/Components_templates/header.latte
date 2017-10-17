@@ -16,7 +16,7 @@
             Přihlášení
         </button>
         <div id='reglog-modal' style='display: none;'>
-            {form signInForm}
+            {*form signInForm}
             <span class='close cursor'>&times;</span>
             {label lusername /}
             {input lusername}
@@ -24,8 +24,21 @@
             {input lpassword}
             {input lsubmit}
             <p id='login-p'>Nemáte účet? <span id='login-span'>Zaregistrujte se.</span></p>
-            {/form}
-            {form registerForm}
+            {/form*}
+            <form n:name=signInForm id="login" method="post" style="display: none;">
+                <span class="close cursor">&times;</span>
+                <label for="lusername">
+                    Uživatelské jméno
+                </label>    
+                <input n:name=lusername id="lusername" placeholder="Uživatelské jméno" maxlength="20" minlength="1" autocomplete="off"/>
+                <label for="lpassword">
+                    Heslo
+                </label>    
+                <input n:name=lpassword id="lpassword" placeholder="Heslo" minlength="4" autocomplete="off"/>
+                <input n:name=lsubmit />
+                <p id="login-p">Nemáte účet? <span id="login-span">Zaregistrujte se.</span></p>
+            </form> 
+            {*form registerForm}
             <span class='close cursor'>&times;</span>
             {label rusername /}
             {input rusername}
@@ -39,18 +52,43 @@
             {input checkemail}
             {input rsubmit}
             <p id='register-p'>Už máte účet? <span id='register-span'>Přihlásit se.</span></p>
-            {/form}
+            {/form*}
+            <form n:name=registerForm id="register" method="post" style="display: none;">
+                <span class='close'>&times;</span>
+                <label for="rusername">
+                    Uživatelské jméno
+                </label>    
+                <input n:name=rusername id="rusername" placeholder="Uživatelské jméno" maxlength="20" minlength="1" autocomplete="off" required/>
+                <label for="rpassword">
+                    Heslo
+                </label>    
+                <input n:name=rpassword id="rpassword" placeholder="Heslo" minlength="4" autocomplete="off" required/>
+                <label for="check-password">
+                    Kontrola Hesla
+                </label>    
+                <input n:name=checkpassword id="check-password" placeholder="Heslo Znovu" minlength="4" autocomplete="off" required/>
+                <label for="email">
+                    Email
+                </label>    
+                <input n:name=email id="email" placeholder="E-mail" maxlength="40" minlength="6" autocomplete="off" required/>
+                <label for='checkemail'>
+                    Kontrola E-mailu
+                </label>    
+                <input n:name=checkemail id="checkemail" placeholder='E-mail Znovu' maxlength='40' minlength='6' autocomplete='off' required/>
+                <input n:name=rsubmit class='c_sub_input'/>
+                <p id='register-p'>Už máte účet? <span id='register-span'>Přihlásit se.</span></p>
+            </form>
         </div>
         {/if}
     </div>
     <div id="search">
         <div id="form-container">
-            <form method="get" action="result.php">
+            <form method="get" action="">
                 <div id="suggestions-container">
                     <input id="search-input" type="search" name="search" placeholder="Vyhledat hru" autocomplete="off"/>
                     <div id="suggestions"></div>
                 </div>
-                <input type="submit" name="s-submit" value="Hledat"/>
+                <input type="submit" name="ssubmit" value="Hledat"/>
             </form>
         </div>
         <a href="cart.php"><button id="cart-btn" class>Košík</button></a>

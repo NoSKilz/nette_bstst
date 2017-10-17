@@ -19,8 +19,13 @@
         <noscript>
             K správnému chodu stránky je potřeba mít aktivovaný JavaScript.
         </noscript>
-        <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
         <div id="content">
+            <div id="errors">
+                <span class="closeerr">&times;</span>
+                <p n:foreach="$flashes as $flash">
+                    {$flash->message}
+                </p>
+            </div>
             {include header}
             <div id="main">
                 {include content}

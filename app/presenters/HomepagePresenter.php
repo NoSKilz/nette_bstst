@@ -18,7 +18,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter
     }
     protected function createComponentHeader() 
     {
-        $header = new \HeaderControl;
+        $header = new \HeaderControl($this->database);
         return $header;
     }
     protected function createComponentBestgames() 
