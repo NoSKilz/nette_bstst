@@ -16,10 +16,11 @@ use Nette\Application\UI\Form;
 use Nette\Security\Passwords;
 class HeaderControl extends Control
 {
-    private $database;
-    public function __construct(Nette\Database\Context $database)
+    private $database,$user;
+    public function __construct(Nette\Database\Context $database, Nette\Security\User $user)
     {
-        $this->database = $database;
+        $this->database=$database;
+        $this->user=$user;
     }
     public function render($platforms,$genres)
     {
@@ -117,6 +118,18 @@ class HeaderControl extends Control
     }
     public function signInFormSucceeded($form, $values)
     {
+        $authenticator=new Authenticator($this->database);
+        try
+        {
+            $this->user->setAuthenticator($authenticator);
+            $this->user->login($values->lusername,$values->lpassword);
+            $this->presenter->redirect('Homepage:');
+        }
+        catch (Nette\Security\AuthenticationException $e) 
+        {
+            $this->presenter->flashMessage('Uživatelské jméno nebo heslo je nesprávné.','errors');
+            $this->presenter->redirect('Homepage:');
+        }
     }
     public function registerFormSucceeded($form, $values)
     {
@@ -128,7 +141,8 @@ class HeaderControl extends Control
                 'password'=>$password,
                 'joined'=>date('Y-m-d H:i:s'),
                 'user_email'=>$values->email,
-                'admin'=>0
+                'admin'=>0,
+                'role'=>'user'
                 ]);
         } 
         catch(Exception $e) 

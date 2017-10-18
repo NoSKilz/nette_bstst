@@ -3,11 +3,19 @@
 {block content}
 <header>
     <div id="reg-log">
-        {if $user->loggedIn}
-        <p>Jste přihlášen jako Admin</p>
-        <div class='adm-container'>
-            <a href='administration.php' class='adm'>Vstup do Administrace</a>
-        </div>
+        {if $user->isLoggedIn()}
+            {if $user->isInRole('admin')}
+            <p>Jste přihlášen jako Admin</p>
+            <div class='adm-container'>
+                <a href='administration.php' class='adm'>Vstup do Administrace</a>
+            </div>
+            {else}
+            <p>Jste přihlášen jako {$user->getIdentity()->username}</p>
+            <div class='adm-container'>
+                <a href='user_interface.php' class='adm'>Vstup do Uživatelského rozhraní</a>
+            </div>
+            {/if}
+        <a href='{plink Homepage:Out}' class='logout'>Odhlásit se</a>
         {else}
         <button id='register-button'>
             Registrace

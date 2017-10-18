@@ -22,7 +22,8 @@ session:
        # cookieSecure: 1 https
 
 services:
-	router: App\RouterFactory::createRouter
+        router: App\RouterFactory::createRouter
+        authenticator: Authenticator
 
 http:
     headers:

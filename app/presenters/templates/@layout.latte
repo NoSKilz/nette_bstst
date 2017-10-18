@@ -12,6 +12,9 @@
         <link rel="publisher" href="">
         <link type="text/css" href="https://fonts.googleapis.com/css?family=Jura" rel="stylesheet">
         <link type="text/css" href="{$basePath}/custom/css/main.min.css" rel="stylesheet">
+        {if $user->isLoggedIn()}
+        <link type="text/css" href="{$basePath}/custom/css/logged.min.css" rel="stylesheet">    
+        {/if}
         <link rel="icon" type="image/gif" href="{$basePath}/favicon.ico" />
         <title>{ifset title}{include title|stripHtml} | {/ifset}Nette Web</title>
     </head>
@@ -20,18 +23,20 @@
             K správnému chodu stránky je potřeba mít aktivovaný JavaScript.
         </noscript>
         <div id="content">
-            <div id="errors">
-                <span class="closeerr">&times;</span>
+            {if $flashes}
+            <div id="{$flashes[0]->type=='errors'?'errors':'success'}">
+                <span class="{$flashes[0]->type=='errors'?'closeerr':'closesc'}">&times;</span>
                 <p n:foreach="$flashes as $flash">
                     {$flash->message}
                 </p>
             </div>
+            {/if}
             {include header}
             <div id="main">
                 {include content}
             </div>
             <footer>
-                    <p>© 2016 <a href="#">Radek Šimíček</a>, All Rights Reserved.</p>
+                <p>© 2016 <a href="#">Radek Šimíček</a>, All Rights Reserved.</p>
             </footer>
         </div>
         {block scripts}

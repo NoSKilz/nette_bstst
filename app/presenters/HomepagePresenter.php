@@ -4,10 +4,11 @@ namespace App\Presenters;
 use Nette;
 class HomepagePresenter extends Nette\Application\UI\Presenter
 {
-    private $database;
-    public function __construct(Nette\Database\Context $database)
+    private $database,$user;
+    public function __construct(Nette\Database\Context $database, Nette\Security\User $user)
     {
         $this->database = $database;
+        $this->user = $user;
     }
     public function renderDefault()
     {
@@ -18,7 +19,7 @@ class HomepagePresenter extends Nette\Application\UI\Presenter
     }
     protected function createComponentHeader() 
     {
-        $header = new \HeaderControl($this->database);
+        $header = new \HeaderControl($this->database,$this->user);
         return $header;
     }
     protected function createComponentBestgames() 
@@ -30,5 +31,11 @@ class HomepagePresenter extends Nette\Application\UI\Presenter
     {
         $newgames = new \NewgamesControl;
         return $newgames;
+    }
+    public function actionOut()
+    {
+        $this->user->logout();
+        $this->flashMessage('Odhlášení bylo úspěšné.','success');
+        $this->redirect('Homepage:');
     }
 }
