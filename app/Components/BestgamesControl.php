@@ -14,11 +14,16 @@
 use Nette\Application\UI\Control;
 class BestgamesControl extends Control
 {
-    public function render($bests)
+    private $best_games;
+    public function __construct($best_games)
+    {
+        $this->best_games = $best_games;
+    }
+    public function render()
     {
         $template = $this->template;
         $template->setFile(__DIR__ . '/Components_templates/bestgames.latte');
-        $template->bests = $bests;
+        $template->best_games = $this->best_games;
         $template->render();
     }
 }

@@ -29,7 +29,7 @@ class AppModel
     }
     public function getNewGames($n)
     {
-        return $this->database->table('product')->select('product_id,product_name,platform_name,price,picture,description')->order('uploaded DESC')->limit($n);
+        return $this->database->table('product')->select('product_id,product_name,platform_name,price,picture,description')->order('uploaded DESC')->limit(8,$n);
     }
     public function getPlatforms()
     {

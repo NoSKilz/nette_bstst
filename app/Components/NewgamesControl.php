@@ -14,11 +14,16 @@
 use Nette\Application\UI\Control;
 class NewgamesControl extends Control
 {
-    public function render($news)
+    private $newest_games;
+    public function __construct($newest_games)
+    {
+        $this->newest_games = $newest_games;
+    }
+    public function render()
     {
         $template = $this->template;
         $template->setFile(__DIR__ . '/Components_templates/newgames.latte');
-        $template->news = $news;
+        $template->newest_games = $this->newest_games;
         $template->render();
     }
 }

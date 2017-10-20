@@ -12,7 +12,6 @@
  * @author NoSkilz
  */
 use Nette\Security as NS;
-
 class Authenticator implements NS\IAuthenticator
 {
     public $database;

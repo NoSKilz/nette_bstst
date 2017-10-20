@@ -4,7 +4,7 @@
 <div id="new">
     <p id="n-p">NOVĚ VYDANÉ HRY</p>
     <div id="new-container">
-        <a n:foreach="$news as $new" href='product.php?product={$new->product_id|striptags}'><div class='new-prod'>
+        <a n:foreach="$newest_games as $new" href='product.php?product={$new->product_id|striptags}'><div class='new-prod'>
                 <div class='flip'>
                     <div class='front'>
                         <img src='images/{$new->picture|striptags}' alt='Obrázek pro hru {$new->product_name|striptags}'>

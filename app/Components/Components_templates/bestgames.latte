@@ -3,7 +3,7 @@
 {block content}
 <div id="best">
     <p id="b-p">NEJPRODÁVANĚJŠÍ HRY</p>
-    <div n:foreach="$bests as $best" class='product'>
+    <div n:foreach="$best_games as $best" class='product'>
         <a href='product.php?product={$best>product_id|striptags}'>
             <p class='p-name'>{$iterations+1}. {$best->product_name|striptags}  ({$best->platform_name|striptags})</p>
             <p class='p-price'>{$best->price|striptags} Kč</p>

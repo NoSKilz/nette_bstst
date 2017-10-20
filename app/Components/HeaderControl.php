@@ -13,20 +13,21 @@
  */
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
-use App\Model\AppModel;
 class HeaderControl extends Control
 {
-    private $appmodel;
-    public function __construct(AppModel $appmodel)
+    private $appmodel,$platforms,$genres;
+    public function __construct(App\Model\AppModel $appmodel,$platforms,$genres)
     {
         $this->appmodel = $appmodel;
+        $this->platforms = $platforms;
+        $this->genres = $genres;
     }
-    public function render($platforms,$genres)
+    public function render()
     {
         $template = $this->template;
         $template->setFile(__DIR__ . '/Components_templates/header.latte');
-        $template->platforms = $platforms;
-        $template->genres = $genres;
+        $template->platforms = $this->platforms;
+        $template->genres = $this->genres;
         $template->render();
     }
     protected function createComponentSignInForm()
