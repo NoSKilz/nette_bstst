@@ -24,6 +24,7 @@ session:
 services:
         router: App\RouterFactory::createRouter
         authenticator: Authenticator
+        - App\Model\AppModel
 
 http:
     headers:

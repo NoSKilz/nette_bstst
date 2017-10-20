@@ -13,14 +13,13 @@
  */
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
-use Nette\Security\Passwords;
+use App\Model\AppModel;
 class HeaderControl extends Control
 {
-    private $database,$user;
-    public function __construct(Nette\Database\Context $database, Nette\Security\User $user)
+    private $appmodel;
+    public function __construct(AppModel $appmodel)
     {
-        $this->database=$database;
-        $this->user=$user;
+        $this->appmodel = $appmodel;
     }
     public function render($platforms,$genres)
     {
@@ -78,18 +77,6 @@ class HeaderControl extends Control
         $form->addSubmit('rsubmit', 'Registrovat');
         $form->onValidate[] = function ($form) {
             $error=FALSE;
-            $name=$this->database->table('user')->get(['user_name'=>$form['rusername']->value]);
-            $email=$this->database->table('user')->get(['user_email'=>$form['email']->value]);
-            if($name)
-            {
-                $error=TRUE;
-                $this->presenter->flashMessage('Účet se zadaným uživatelským jménem již existuje.','errors');
-            }
-            if($email)
-            {
-                $error=TRUE;
-                $this->presenter->flashMessage('Účet se zadanou emailovou adresou již existuje.','errors');
-            }
             if($form['rpassword']->value != $form['checkpassword']->value)
             {
                 $error=TRUE;
@@ -118,38 +105,36 @@ class HeaderControl extends Control
     }
     public function signInFormSucceeded($form, $values)
     {
-        $authenticator=new Authenticator($this->database);
-        try
-        {
-            $this->user->setAuthenticator($authenticator);
-            $this->user->login($values->lusername,$values->lpassword);
-            $this->presenter->redirect('Homepage:');
-        }
-        catch (Nette\Security\AuthenticationException $e) 
+        $login = $this->appmodel->login($values->lusername,$values->lpassword);
+        if($login == 'error')
         {
             $this->presenter->flashMessage('Uživatelské jméno nebo heslo je nesprávné.','errors');
+            $this->presenter->redirect('Homepage:');
+        }
+        else
+        {
             $this->presenter->redirect('Homepage:');
         }
     }
     public function registerFormSucceeded($form, $values)
     {
-        $password=Passwords::hash($values->rpassword,['cost' => 12]);
-        try
+        $registered=$this->appmodel->register($values);
+        if($registered == 'succes')
         {
-            $this->database->table('user')->insert([
-                'user_name'=>$values->rusername,
-                'password'=>$password,
-                'joined'=>date('Y-m-d H:i:s'),
-                'user_email'=>$values->email,
-                'admin'=>0,
-                'role'=>'user'
-                ]);
-        } 
-        catch(Exception $e) 
-        {
-            $this->presenter->flashMessage('Došlo k neznámé chybě, zkuste to později.','errors');
+            $this->presenter->flashMessage('Byl jste úspěšně registrován.','success');
+            $this->presenter->redirect('Homepage:');
         }
-        $this->presenter->flashMessage('Byl jste úspěšně registrován.','success');
-        $this->presenter->redirect('Homepage:');
+        else
+        {
+            if($registered == 'user_name')
+            {
+                $this->presenter->flashMessage('Účet se zadaným uživatelským jménem již existuje.','errors');
+            }
+            else
+            {
+                $this->presenter->flashMessage('Účet se zadanou emailovou adresou již existuje.','errors');
+            }
+            $this->presenter->redirect('Homepage:');
+        }
     }
 }
