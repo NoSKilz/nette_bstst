@@ -39,19 +39,27 @@ class AppModel
     {
         return $this->database->table('genre')->select('genre_name');
     }
+    public function checkName($name)
+    {
+        return $this->database->table('user')->where('user_name ?',$name)->fetch();
+    }
+    public function checkMail($mail)
+    {
+        return $this->database->table('user')->where('user_email ?',$mail)->fetch();
+    }
     public function register($values)
     {
         $password=Passwords::hash($values->rpassword,['cost' => 12]);
         try
         {
-        $registered=$this->database->table('user')->insert([
-            'user_name'=>$values->rusername,
-            'password'=>$password,
-            'joined'=>date('Y-m-d H:i:s'),
-            'user_email'=>$values->email,
-            'admin'=>0,
-            'role'=>'user'
-            ]);
+            $this->database->table('user')->insert([
+                'user_name'=>$values->rusername,
+                'password'=>$password,
+                'joined'=>date('Y-m-d H:i:s'),
+                'user_email'=>$values->email,
+                'admin'=>0,
+                'role'=>'user'
+                ]);
         }
         catch (Nette\Database\UniqueConstraintViolationException $e)
         {
@@ -64,7 +72,7 @@ class AppModel
                 return 'user_email';
             }
         }
-            return 'succes';
+        return 'succes';
     }
     public function login($username,$password) 
     {

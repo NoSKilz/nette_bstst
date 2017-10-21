@@ -78,6 +78,18 @@ class HeaderControl extends Control
         $form->addSubmit('rsubmit', 'Registrovat');
         $form->onValidate[] = function ($form) {
             $error=FALSE;
+            $name=$this->appmodel->checkName($form['rusername']->value);
+            $email=$this->appmodel->checkMail($form['email']->value);
+            if($name)
+            {
+                $error=TRUE;
+                $this->presenter->flashMessage('Účet se zadaným uživatelským jménem již existuje.','errors');
+            }
+            if($email)
+            {
+                $error=TRUE;
+                $this->presenter->flashMessage('Účet se zadanou emailovou adresou již existuje.','errors');
+            }
             if($form['rpassword']->value != $form['checkpassword']->value)
             {
                 $error=TRUE;
