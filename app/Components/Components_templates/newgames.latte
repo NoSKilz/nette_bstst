@@ -7,7 +7,7 @@
         <a n:foreach="$newest_games as $new" href='product.php?product={$new->product_id|striptags}'><div class='new-prod'>
                 <div class='flip'>
                     <div class='front'>
-                        <img src='images/{$new->picture|striptags}' alt='Obrázek pro hru {$new->product_name|striptags}'>
+                        <img src='{$basePath}/images/{$new->picture|striptags}' alt='Obrázek pro hru {$new->product_name|striptags}'>
                         <p class='name'>{$new->product_name|striptags} ({$new->platform_name|striptags})</p>
                         <p class='price'>{$new->price|striptags} Kč</p>
                     </div>

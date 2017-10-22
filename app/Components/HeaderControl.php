@@ -30,12 +30,30 @@ class HeaderControl extends Control
         $template->genres = $this->genres;
         $template->render();
     }
+    protected function createComponentSearchForm()
+    {
+        $form = new Form;
+        $form->addText('searchinput', 'Vyhledat hru')
+                ->addRule(Form::MAX_LENGTH, 'Toto pole může mít maximálně %d znaků.',30)
+                ->setRequired(FALSE);
+        $form->addSubmit('ssubmit', 'Hledat');
+        $form->onError[]= function($form)
+        {
+            foreach($form->errors as $error)
+            {
+                $this->presenter->flashMessage($error,'errors');
+            }
+            $this->presenter->redirect('Homepage:');
+        };
+        $form->onSuccess[] = [$this, 'searchFormSucceeded'];
+        return $form;
+    }
     protected function createComponentSignInForm()
     {
         $form = new Form;
         $form->addText('lusername', 'Uživatelské jméno')
                 ->addRule(Form::MIN_LENGTH, 'Uživatelské jméno musí mít alespoň %d znak.',1)
-                ->addRule(Form::MAX_LENGTH, 'Uživatelské jméno může mít maximálně %d znaků.', 20)
+                ->addRule(Form::MAX_LENGTH, 'Uživatelské jméno může mít maximálně %d znaků.',20)
                 ->setRequired('Vyplňte své uživatelské jméno.');
         $form->addPassword('lpassword', 'Heslo')
                 ->addRule(Form::MIN_LENGTH, 'Heslo musí mít alespoň %d znaky.',4)
@@ -57,7 +75,7 @@ class HeaderControl extends Control
         $form = new Form;
         $form->addText('rusername', 'Uživatelské jméno')
                 ->addRule(Form::MIN_LENGTH, 'Uživatelské jméno musí mít alespoň %d znak.',1)
-                ->addRule(Form::MAX_LENGTH, 'Uživatelské jméno může mít maximálně %d znaků.', 20)
+                ->addRule(Form::MAX_LENGTH, 'Uživatelské jméno může mít maximálně %d znaků.',20)
                 ->setRequired('Vyplňte své uživatelské jméno.');
         $form->addPassword('rpassword', 'Heslo')
                 ->addRule(Form::MIN_LENGTH, 'Heslo musí mít alespoň %d znaky.',4)
@@ -67,12 +85,12 @@ class HeaderControl extends Control
                 ->setRequired('Vyplňte kontrolní heslo.');
         $form->addEmail('email', 'Email')
                 ->addRule(Form::MIN_LENGTH, 'E-mail musí mít alespoň %d znaků.',6)
-                ->addRule(Form::MAX_LENGTH, 'E-mail může mít maximálně %d znaků.', 40)
+                ->addRule(Form::MAX_LENGTH, 'E-mail může mít maximálně %d znaků.',40)
                 ->addRule(Form::EMAIL, 'Musíte zadat platnou emailovou adresu.')
                 ->setRequired('Vyplňte svůj e-mail.');
         $form->addEmail('checkemail', 'Email znovu')
                 ->addRule(Form::MIN_LENGTH, 'Kontrolní e-mail musí mít alespoň %d znaků.',6)
-                ->addRule(Form::MAX_LENGTH, 'Kontrolní e-mail může mít maximálně %d znaků.', 40)
+                ->addRule(Form::MAX_LENGTH, 'Kontrolní e-mail může mít maximálně %d znaků.',40)
                 ->addRule(Form::EMAIL, 'Musíte zadat platnou emailovou adresu.')
                 ->setRequired('Vyplňte kontrolní e-mail.');
         $form->addSubmit('rsubmit', 'Registrovat');
@@ -149,5 +167,8 @@ class HeaderControl extends Control
             }
             $this->presenter->redirect('Homepage:');
         }
+    }
+    public function searchFormSucceeded($form, $values)
+    {
     }
 }

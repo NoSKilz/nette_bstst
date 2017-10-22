@@ -39,6 +39,12 @@ class AppModel
     {
         return $this->database->table('genre')->select('genre_name');
     }
+    public function getGames($platform,$genre)
+    {
+        return $this->database->table('product')
+                ->select('product_id,product_name,platform_name,price')
+                ->where('platform_name LIKE ? AND genre_name LIKE ?',$platform,$genre)->fetchAll();
+    }
     public function checkName($name)
     {
         return $this->database->table('user')->where('user_name ?',$name)->fetch();
@@ -53,10 +59,10 @@ class AppModel
         try
         {
             $this->database->table('user')->insert([
-                'user_name'=>$values->rusername,
+                'user_name'=>strip_tags($values->rusername),
                 'password'=>$password,
                 'joined'=>date('Y-m-d H:i:s'),
-                'user_email'=>$values->email,
+                'user_email'=>strip_tags($values->email),
                 'admin'=>0,
                 'role'=>'user'
                 ]);

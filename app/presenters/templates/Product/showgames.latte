@@ -1,0 +1,20 @@
+{* Latte template *}
+{block header}
+{control header}
+{/block}
+{block content}
+<div id="product">
+{if $games}
+    <a n:foreach="$games as $game" href="product.php?product={$game['product_id']}">
+        <div class="result-product">
+            <p class="result-name">{$game['product_name']} ({$game['platform_name']})</p>
+            <p class="result-price">{$game['price']} Kč</p>
+        </div>
+    </a>
+{else}
+<p id="wrong">Nejsou zde žádné hry.<p>
+{/if}
+</div>
+{control newgames}
+{control bestgames}
+{/block}

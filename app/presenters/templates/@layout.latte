@@ -11,7 +11,12 @@
         <link rel="author" href="https://plus.google.com/u/0/115111710746527975391">
         <link rel="publisher" href="">
         <link type="text/css" href="https://fonts.googleapis.com/css?family=Jura" rel="stylesheet">
+        {ifCurrent Homepage:}
         <link type="text/css" href="{$basePath}/custom/css/main.min.css" rel="stylesheet">
+        {/ifCurrent}
+        {ifCurrent Product:showgames}
+        <link type="text/css" href="{$basePath}/custom/css/result.min.css" rel="stylesheet">
+        {/ifCurrent}
         {if $user->isLoggedIn()}
         <link type="text/css" href="{$basePath}/custom/css/logged.min.css" rel="stylesheet">    
         {/if}
