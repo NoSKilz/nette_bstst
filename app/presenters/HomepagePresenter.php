@@ -9,9 +9,6 @@ class HomepagePresenter extends Nette\Application\UI\Presenter
     public function __construct(AppModel $appmodel)
     {
         $this->appmodel = $appmodel;
-    }
-    public function renderDefault()
-    {
         $this->best_games = $this->appmodel->getBestGames();
         $this->newest_games = $this->appmodel->getNewGames(0);
         $this->platforms = $this->appmodel->getPlatforms();

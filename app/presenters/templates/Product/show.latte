@@ -1,0 +1,55 @@
+{* Latte template *}
+{block header}
+{control header}
+{/block}
+{block content}
+<div id="product">
+{if $game}
+<div id="product-container">
+    <div id="smt-container">
+        <div id="picture-container">
+            <div id="picture">
+                <img src="{$basePath}/images/{$game['picture']}">
+            </div>
+        </div>
+        <div id="rest-container">
+            <div id="p-name">
+                <p>{$game['product_name']} ({$game['platform_name']})</p>
+            </div>
+            <div id="price">
+                <p>Cena:   {$game['price']} Kč</p>
+            </div>
+            <div id="genname">
+                <a>
+                    <p>Žánr:   {$game['genre_name']}</p>
+                </a>
+            </div>
+            <div id="time">
+                {if $game['delivery_time']==1}
+                <p>Doba dodání:  1 den</p>
+                {elseif $game['delivery_time']==2||$game['delivery_time']==3||$game['delivery_time']==4}
+                <p>Doba dodání: {$game['delivery_time']} dny</p>
+                {elseif $game['delivery_time']>=5}
+                <p>Doba dodání: {$game['delivery_time']} dnů</p>
+                {/if}
+            </div>
+            <div id="ca">
+                {if $game['in_stock']<=0}
+                <p>Hra není na skladě</p>
+                {else}
+                <p>dodelat formular</p>
+                {/if}
+            </div>
+        </div>
+    </div>
+    <div id='description'>
+        <p>{$game['description']}</p>
+    </div>
+</div>
+{else}
+<p id="wrong">Nejsou zde žádné hry.<p>
+{/if}
+</div>
+{control newgames}
+{control bestgames}
+{/block}

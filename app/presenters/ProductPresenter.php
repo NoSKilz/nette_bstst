@@ -19,14 +19,18 @@ class ProductPresenter extends Nette\Application\UI\Presenter
     public function __construct(AppModel $appmodel)
     {
         $this->appmodel = $appmodel;
-    }
-    public function renderShowGames($platform,$genre)
-    {
         $this->best_games = $this->appmodel->getBestGames();
         $this->newest_games = $this->appmodel->getNewGames(0);
         $this->platforms = $this->appmodel->getPlatforms();
         $this->genres = $this->appmodel->getGenres();
+    }
+    public function renderShowGames($platform,$genre)
+    {
         $this->template->games = $this->appmodel->getGames($platform, $genre);
+    }
+    public function renderShow($id)
+    {
+        $this->template->game = $this->appmodel->getGame($id);
     }
     protected function createComponentHeader() 
     {

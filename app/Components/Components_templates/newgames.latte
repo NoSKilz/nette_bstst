@@ -4,7 +4,7 @@
 <div id="new">
     <p id="n-p">NOVĚ VYDANÉ HRY</p>
     <div id="new-container">
-        <a n:foreach="$newest_games as $new" href="product.php?product={$new->product_id|striptags}">
+        <a n:foreach="$newest_games as $new" href="{plink Product:show $new->product_id}">
             <div class="new-prod">
                 <div class="flip">
                     <div class="front">

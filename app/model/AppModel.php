@@ -45,6 +45,12 @@ class AppModel
                 ->select('product_id,product_name,platform_name,price')
                 ->where('platform_name LIKE ? AND genre_name LIKE ?',$platform,$genre);
     }
+    public function getGame($id)
+    {
+        return $this->database->table('product')
+                ->select('product_id,product_name,description,price,in_stock,platform_name,genre_name,picture,delivery_time')
+                ->where('product_id = ?',$id)->fetch();
+    }
     public function checkName($name)
     {
         return $this->database->table('user')->where('user_name ?',$name)->fetch();
