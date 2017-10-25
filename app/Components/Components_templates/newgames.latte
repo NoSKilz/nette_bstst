@@ -4,14 +4,15 @@
 <div id="new">
     <p id="n-p">NOVĚ VYDANÉ HRY</p>
     <div id="new-container">
-        <a n:foreach="$newest_games as $new" href='product.php?product={$new->product_id|striptags}'><div class='new-prod'>
-                <div class='flip'>
-                    <div class='front'>
-                        <img src='{$basePath}/images/{$new->picture|striptags}' alt='Obrázek pro hru {$new->product_name|striptags}'>
-                        <p class='name'>{$new->product_name|striptags} ({$new->platform_name|striptags})</p>
-                        <p class='price'>{$new->price|striptags} Kč</p>
+        <a n:foreach="$newest_games as $new" href="product.php?product={$new->product_id|striptags}">
+            <div class="new-prod">
+                <div class="flip">
+                    <div class="front">
+                        <img src="{$basePath}/images/{$new->picture|striptags}" alt="Obrázek pro hru {$new->product_name|striptags}">
+                        <p class="name">{$new->product_name|striptags} ({$new->platform_name|striptags})</p>
+                        <p class="price">{$new->price|striptags} Kč</p>
                     </div>
-                        <div class='back'>{$new->description|striptags|truncate:200}</div>
+                    <div class="back">{$new->description|striptags|truncate:200}</div>
                 </div>
             </div>
         </a>

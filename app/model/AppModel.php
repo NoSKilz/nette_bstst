@@ -43,7 +43,7 @@ class AppModel
     {
         return $this->database->table('product')
                 ->select('product_id,product_name,platform_name,price')
-                ->where('platform_name LIKE ? AND genre_name LIKE ?',$platform,$genre)->fetchAll();
+                ->where('platform_name LIKE ? AND genre_name LIKE ?',$platform,$genre);
     }
     public function checkName($name)
     {
