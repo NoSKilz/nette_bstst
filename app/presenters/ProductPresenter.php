@@ -32,6 +32,10 @@ class ProductPresenter extends Nette\Application\UI\Presenter
     {
         $this->template->game = $this->appmodel->getGame($id);
     }
+    public function renderSearch($q)
+    {
+        $this->template->results = $this->appmodel->getSearch('%'.$q.'%');
+    }
     protected function createComponentHeader() 
     {
         $header = new \HeaderControl($this->appmodel,$this->platforms,$this->genres);

@@ -170,5 +170,6 @@ class HeaderControl extends Control
     }
     public function searchFormSucceeded($form, $values)
     {
+        $this->presenter->redirect('Product:search',['q'=>$values->searchinput]);
     }
 }

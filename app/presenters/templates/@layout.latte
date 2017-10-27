@@ -20,6 +20,9 @@
         {ifCurrent Product:show}
         <link type="text/css" href="{$basePath}/custom/css/product.min.css" rel="stylesheet">
         {/ifCurrent}
+        {ifCurrent Product:search}
+        <link type="text/css" href="{$basePath}/custom/css/result.min.css" rel="stylesheet">
+        {/ifCurrent}
         {if $user->isLoggedIn()}
         <link type="text/css" href="{$basePath}/custom/css/logged.min.css" rel="stylesheet">    
         {/if}

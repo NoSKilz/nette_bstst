@@ -51,6 +51,12 @@ class AppModel
                 ->select('product_id,product_name,description,price,in_stock,platform_name,genre_name,picture,delivery_time')
                 ->where('product_id = ?',$id)->fetch();
     }
+    public function getSearch($q)
+    {
+        return $this->database->table('product')
+                ->select('product_id,product_name,platform_name,price')
+                ->where('product_name LIKE ?',$q);
+    }
     public function checkName($name)
     {
         return $this->database->table('user')->where('user_name ?',$name)->fetch();
