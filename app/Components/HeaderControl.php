@@ -43,7 +43,7 @@ class HeaderControl extends Control
             {
                 $this->presenter->flashMessage($error,'errors');
             }
-            $this->presenter->redirect('Homepage:');
+            $this->presenter->redirect('this');
         };
         $form->onSuccess[] = [$this, 'searchFormSucceeded'];
         return $form;
@@ -65,7 +65,7 @@ class HeaderControl extends Control
             {
                 $this->presenter->flashMessage($error,'errors');
             }
-            $this->presenter->redirect('Homepage:');
+            $this->presenter->redirect('this');
         };
         $form->onSuccess[] = [$this, 'signInFormSucceeded'];
         return $form;
@@ -94,6 +94,14 @@ class HeaderControl extends Control
                 ->addRule(Form::EMAIL, 'Musíte zadat platnou emailovou adresu.')
                 ->setRequired('Vyplňte kontrolní e-mail.');
         $form->addSubmit('rsubmit', 'Registrovat');
+        $form->onError[]= function($form)
+        {
+            foreach($form->errors as $error)
+            {
+                $this->presenter->flashMessage($error,'errors');
+            }
+            $this->presenter->redirect('this');
+        };
         $form->onValidate[] = function ($form) {
             $error=FALSE;
             $name=$this->appmodel->checkName($form['rusername']->value);
@@ -120,16 +128,8 @@ class HeaderControl extends Control
             }
             if($error)
             {
-                $this->presenter->redirect('Homepage:');
+                $this->presenter->redirect('this');
             }
-        };
-        $form->onError[]= function($form)
-        {
-            foreach($form->errors as $error)
-            {
-                $this->presenter->flashMessage($error,'errors');
-            }
-            $this->presenter->redirect('Homepage:');
         };
         $form->onSuccess[] = [$this, 'registerFormSucceeded'];
         return $form;
@@ -140,11 +140,11 @@ class HeaderControl extends Control
         if($login == 'error')
         {
             $this->presenter->flashMessage('Uživatelské jméno nebo heslo je nesprávné.','errors');
-            $this->presenter->redirect('Homepage:');
+            $this->presenter->redirect('this');
         }
         else
         {
-            $this->presenter->redirect('Homepage:');
+            $this->presenter->redirect('this');
         }
     }
     public function registerFormSucceeded($form, $values)
@@ -153,7 +153,7 @@ class HeaderControl extends Control
         if($registered == 'succes')
         {
             $this->presenter->flashMessage('Byl jste úspěšně registrován.','success');
-            $this->presenter->redirect('Homepage:');
+            $this->presenter->redirect('this');
         }
         else
         {
@@ -165,7 +165,7 @@ class HeaderControl extends Control
             {
                 $this->presenter->flashMessage('Účet se zadanou emailovou adresou již existuje.','errors');
             }
-            $this->presenter->redirect('Homepage:');
+            $this->presenter->redirect('this');
         }
     }
     public function searchFormSucceeded($form, $values)

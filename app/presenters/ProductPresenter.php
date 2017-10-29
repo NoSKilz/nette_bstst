@@ -13,6 +13,7 @@
 namespace App\Presenters;
 use Nette;
 use App\Model\AppModel;
+use Nette\Application\UI\Form;
 class ProductPresenter extends Nette\Application\UI\Presenter
 {
     private $appmodel,$best_games,$newest_games,$platforms,$genres;
@@ -31,6 +32,7 @@ class ProductPresenter extends Nette\Application\UI\Presenter
     public function renderShow($id)
     {
         $this->template->game = $this->appmodel->getGame($id);
+        $this->template->comments = $this->appmodel->getComments($id);
     }
     public function renderSearch($q)
     {
@@ -50,6 +52,91 @@ class ProductPresenter extends Nette\Application\UI\Presenter
     {
         $newgames = new \NewgamesControl($this->newest_games);
         return $newgames;
+    }
+    protected function createComponentBuyForm()
+    {
+        $form = new Form;
+        $form->addHidden('productid')
+                ->addRule(Form::MIN_LENGTH,'Nastala chyba, zkuste to znovu.',1)
+                ->addRule(Form::INTEGER,'Nastala chyba, zkuste to znovu.')
+                ->setRequired(TRUE);
+        $form->addSubmit('pst','Přidat do košíku');
+        $form->onError[]= function($form)
+        {
+            foreach($form->errors as $error)
+            {
+                $this->presenter->flashMessage($error,'errors');
+            }
+            $this->presenter->redirect('this');
+        };
+        $form->onValidate[] = function ($form) {
+            $error = FALSE;
+            $game = $this->appmodel->getGame($form['productid']->value);
+            if($this->getParameter('id')!=$form['productid']->value)
+            {
+                $this->presenter->flashMessage('Nastala chyba, zkuste to znovu.','errors');
+                $error = TRUE;
+            }
+            if($game['in_stock']<=0)
+            {
+                $this->presenter->flashMessage('Nastala chyba, zkuste to znovu.','errors');
+                $error = TRUE;
+            }
+            if($error)
+            {
+                $this->presenter->redirect('this');
+            }
+        };
+        $form->onSuccess[] = [$this, 'buyFormSucceeded'];
+        return $form;
+    }
+    protected function createComponentCommentForm()
+    {
+        $form = new Form;
+        $form->addtextArea('comment')
+                ->addRule(Form::MIN_LENGTH,'Nastala chyba, zkuste to znovu.',1)
+                ->addRule(Form::MAX_LENGTH,'Komentář může mít maximálně %d znaků.',500)
+                ->setRequired(TRUE);
+        $form->addSubmit('csubmit','Odeslat komentář');
+        $form->onError[]= function($form)
+        {
+            foreach($form->errors as $error)
+            {
+                $this->presenter->flashMessage($error,'errors');
+            }
+            $this->presenter->redirect('this');
+        };
+        $form->onValidate[] = function ($form) {
+            $error = FALSE;
+            if(!$this->user->isLoggedIn())
+            {
+                $this->presenter->flashMessage('Nastala chyba, zkuste to znovu.','errors');
+                $error = TRUE;
+            }                           
+            if($error)
+            {
+                $this->presenter->redirect('this');
+            }
+        };
+        $form->onSuccess[] = [$this, 'commentFormSucceeded'];
+        return $form;
+    }
+    public function buyFormSucceeded($form, $values)
+    {
+        $this->presenter->redirect('this');
+    }
+    public function commentFormSucceeded($form, $values)
+    {
+        $com = $this->appmodel->addComment($values,$this->getParameter('id'));
+        if($com == 'error')
+        {
+            $this->presenter->flashMessage('Nastala chyba, zkuste to znovu.','errors');
+            $this->presenter->redirect('this');
+        }
+        else
+        {
+            $this->presenter->redirect('this');
+        }
     }
     public function actionOut()
     {

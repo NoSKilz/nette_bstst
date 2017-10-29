@@ -57,6 +57,10 @@ class AppModel
                 ->select('product_id,product_name,platform_name,price')
                 ->where('product_name LIKE ?',$q);
     }
+    public function getComments($id)
+    {
+        return $this->database->fetchAll('SELECT c.user_id,c.comment_text,r.user_name FROM comments c INNER JOIN user r ON r.user_id=c.user_id WHERE product_id=?',$id);
+    }
     public function checkName($name)
     {
         return $this->database->table('user')->where('user_name ?',$name)->fetch();
@@ -105,5 +109,20 @@ class AppModel
         {
             return 'error';
         }
+    }
+    public function addComment($values,$id)
+    {
+        try
+        {
+            $this->database->table('comments')->insert(['user_id' => strip_tags($this->user->id),
+                'product_id' => strip_tags($id),
+                'comment_text' => strip_tags($values->comment),
+                'uploaded' => date('Y-m-d H:i:s')]);
+        } 
+        catch (Exception $ex) 
+        {
+            return 'error';
+        }
+        return 'succes';
     }
 }

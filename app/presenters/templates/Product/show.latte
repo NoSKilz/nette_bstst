@@ -37,14 +37,41 @@
                 {if $game['in_stock']<=0}
                 <p>Hra není na skladě</p>
                 {else}
-                <p>dodelat formular</p>
+                <form n:name=buyForm id="cart-add">
+                    <input n:name=productid value="{$game['product_id']}" id="cart-subm" minlength="1" />
+                    <input n:name=pst id="cart-subm"/>
+                </form>
                 {/if}
             </div>
         </div>
     </div>
-    <div id='description'>
+    <div id="description">
         <p>{$game['description']}</p>
     </div>
+    {if $user->isLoggedIn()}
+    <div id="c-f-container">
+        <form n:name=commentForm id="comment-form"><div>
+            <textarea n:name=comment id="com" maxlength="500" minlength="1" placeholder="Text komentáře" requiered></textarea>
+            <input n:name=csubmit id="comment-submit" /></div>
+        </form>
+        <div id="charNum" data-count="500">Zbývající počet znaků: 500</div>
+    </div>
+    {else}
+    <p id="err">Pro přidávání komentářů musíte být příhlášeni.</p>
+    {/if}
+    {if $comments}
+    <div id="comment-div">
+        {foreach $comments as $comment}
+        <p>
+            <b style="color:red;">{$comment['user_name']}: </b>{$comment['comment_text']}
+        </p>
+        {/foreach}
+    </div>
+    {else}
+    <div id="comment-div" style="text-align: center;">
+        Nejsou zde žádné komentáře.
+    </div>
+    {/if}
 </div>
 {else}
 <div id="product-container">
