@@ -33,6 +33,7 @@ class ProductPresenter extends Nette\Application\UI\Presenter
     {
         $this->template->game = $this->appmodel->getGame($id);
         $this->template->comments = $this->appmodel->getComments($id);
+        var_dump($this->getSession('cart'));
     }
     public function renderSearch($q)
     {
@@ -61,30 +62,30 @@ class ProductPresenter extends Nette\Application\UI\Presenter
                 ->addRule(Form::INTEGER,'Nastala chyba, zkuste to znovu.')
                 ->setRequired(TRUE);
         $form->addSubmit('pst','Přidat do košíku');
-        $form->onError[]= function($form)
+        $form->onError[] = function($form)
         {
             foreach($form->errors as $error)
             {
-                $this->presenter->flashMessage($error,'errors');
+                $this->flashMessage($error,'errors');
             }
-            $this->presenter->redirect('this');
+            $this->redirect('this');
         };
         $form->onValidate[] = function ($form) {
             $error = FALSE;
             $game = $this->appmodel->getGame($form['productid']->value);
-            if($this->getParameter('id')!=$form['productid']->value)
+            if($this->getParameter('id')!= $form['productid']->value)
             {
-                $this->presenter->flashMessage('Nastala chyba, zkuste to znovu.','errors');
+                $this->flashMessage('Nastala chyba, zkuste to znovu.','errors');
                 $error = TRUE;
             }
-            if($game['in_stock']<=0)
+            if($game['in_stock'] <= 0)
             {
-                $this->presenter->flashMessage('Nastala chyba, zkuste to znovu.','errors');
+                $this->flashMessage('Nastala chyba, zkuste to znovu.','errors');
                 $error = TRUE;
             }
             if($error)
             {
-                $this->presenter->redirect('this');
+                $this->redirect('this');
             }
         };
         $form->onSuccess[] = [$this, 'buyFormSucceeded'];
@@ -98,24 +99,24 @@ class ProductPresenter extends Nette\Application\UI\Presenter
                 ->addRule(Form::MAX_LENGTH,'Komentář může mít maximálně %d znaků.',500)
                 ->setRequired(TRUE);
         $form->addSubmit('csubmit','Odeslat komentář');
-        $form->onError[]= function($form)
+        $form->onError[] = function($form)
         {
             foreach($form->errors as $error)
             {
-                $this->presenter->flashMessage($error,'errors');
+                $this->flashMessage($error,'errors');
             }
-            $this->presenter->redirect('this');
+            $this->redirect('this');
         };
         $form->onValidate[] = function ($form) {
             $error = FALSE;
             if(!$this->user->isLoggedIn())
             {
-                $this->presenter->flashMessage('Nastala chyba, zkuste to znovu.','errors');
+                $this->flashMessage('Nastala chyba, zkuste to znovu.','errors');
                 $error = TRUE;
             }                           
             if($error)
             {
-                $this->presenter->redirect('this');
+                $this->redirect('this');
             }
         };
         $form->onSuccess[] = [$this, 'commentFormSucceeded'];
@@ -123,19 +124,20 @@ class ProductPresenter extends Nette\Application\UI\Presenter
     }
     public function buyFormSucceeded($form, $values)
     {
-        $this->presenter->redirect('this');
+        /*not wokring :/ */
+        $this->redirect('this');
     }
     public function commentFormSucceeded($form, $values)
     {
         $com = $this->appmodel->addComment($values,$this->getParameter('id'));
         if($com == 'error')
         {
-            $this->presenter->flashMessage('Nastala chyba, zkuste to znovu.','errors');
-            $this->presenter->redirect('this');
+            $this->flashMessage('Nastala chyba, zkuste to znovu.','errors');
+            $this->redirect('this');
         }
         else
         {
-            $this->presenter->redirect('this');
+            $this->redirect('this');
         }
     }
     public function actionOut()

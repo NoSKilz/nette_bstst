@@ -12,7 +12,7 @@
         {else}
         <p>Jste přihlášen jako {$user->getIdentity()->username}</p>
         <div class="adm-container">
-            <a href="user_interface.php" class="adm">Vstup do Uživatelského rozhraní</a>
+            <a href="{plink User:}" class="adm">Vstup do Uživatelského rozhraní</a>
         </div>
         {/if}
         <a href="{plink Homepage:Out}" class="logout">Odhlásit se</a>

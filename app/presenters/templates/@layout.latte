@@ -23,6 +23,9 @@
         {ifCurrent Product:search}
         <link type="text/css" href="{$basePath}/custom/css/result.min.css" rel="stylesheet">
         {/ifCurrent}
+        {ifCurrent User:}
+        <link type="text/css" href="{$basePath}/custom/css/interface.min.css" rel="stylesheet">
+        {/ifCurrent}
         {if $user->isLoggedIn()}
         <link type="text/css" href="{$basePath}/custom/css/logged.min.css" rel="stylesheet">    
         {/if}

@@ -63,15 +63,50 @@ class AppModel
     }
     public function checkName($name)
     {
-        return $this->database->table('user')->where('user_name ?',$name)->fetch();
+        return $this->database->table('user')->where('user_name LIKE ?',$name)->fetch();
     }
     public function checkMail($mail)
     {
-        return $this->database->table('user')->where('user_email ?',$mail)->fetch();
+        return $this->database->table('user')->where('user_email LIKE ?',$mail)->fetch();
+    }
+    public function changeEmail($values)
+    {
+        $password = $this->database->table('user')->select('password')->where('user_id = ?', $this->user->id)->fetch();
+        if(!Passwords::verify($values->epassword, $password['password']))
+        {
+            return 'errorpass';
+        }
+        try
+        {
+            $this->database->table('user')->where('user_id = ?', $this->user->id)->update(['user_email' => $values->nemail]);
+        } 
+        catch (Exception $ex) 
+        {
+            return 'error';
+        }
+        return 'success';
+    }
+    public function changePass($values)
+    {
+        $password = $this->database->table('user')->select('password')->where('user_id = ?', $this->user->id)->fetch();
+        if(!Passwords::verify($values->opassword, $password['password']))
+        {
+            return 'errorpass';
+        }
+        try
+        {
+            $npassword = Passwords::hash($values->npassword);
+            $this->database->table('user')->where('user_id = ?', $this->user->id)->update(['password' => $npassword]);
+        } 
+        catch (Exception $ex) 
+        {
+            return 'error';
+        }
+        return 'success';
     }
     public function register($values)
     {
-        $password=Passwords::hash($values->rpassword,['cost' => 12]);
+        $password = Passwords::hash($values->rpassword,['cost' => 12]);
         try
         {
             $this->database->table('user')->insert([
@@ -98,7 +133,7 @@ class AppModel
     }
     public function login($username,$password) 
     {
-        $authenticator=new \Authenticator($this->database);
+        $authenticator = new \Authenticator($this->database);
         try
         {
             $this->user->setAuthenticator($authenticator);

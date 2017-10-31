@@ -51,15 +51,15 @@ class HeaderControl extends Control
     protected function createComponentSignInForm()
     {
         $form = new Form;
-        $form->addText('lusername', 'Uživatelské jméno')
+        $form->addText('lusername')
                 ->addRule(Form::MIN_LENGTH, 'Uživatelské jméno musí mít alespoň %d znak.',1)
                 ->addRule(Form::MAX_LENGTH, 'Uživatelské jméno může mít maximálně %d znaků.',20)
                 ->setRequired('Vyplňte své uživatelské jméno.');
-        $form->addPassword('lpassword', 'Heslo')
+        $form->addPassword('lpassword')
                 ->addRule(Form::MIN_LENGTH, 'Heslo musí mít alespoň %d znaky.',4)
                 ->setRequired('Vyplňte své heslo.');
         $form->addSubmit('lsubmit', 'Přihlásit');
-        $form->onError[]= function($form)
+        $form->onError[] = function($form)
         {
             foreach($form->errors as $error)
             {
@@ -73,28 +73,28 @@ class HeaderControl extends Control
     protected function createComponentRegisterForm()
     {
         $form = new Form;
-        $form->addText('rusername', 'Uživatelské jméno')
+        $form->addText('rusername')
                 ->addRule(Form::MIN_LENGTH, 'Uživatelské jméno musí mít alespoň %d znak.',1)
                 ->addRule(Form::MAX_LENGTH, 'Uživatelské jméno může mít maximálně %d znaků.',20)
                 ->setRequired('Vyplňte své uživatelské jméno.');
-        $form->addPassword('rpassword', 'Heslo')
+        $form->addPassword('rpassword')
                 ->addRule(Form::MIN_LENGTH, 'Heslo musí mít alespoň %d znaky.',4)
                 ->setRequired('Vyplňte své heslo.');
-        $form->addPassword('checkpassword', 'Heslo znovu')
+        $form->addPassword('checkpassword')
                 ->addRule(Form::MIN_LENGTH, 'Kontrolní heslo musí mít alespoň %d znaky.',4)
                 ->setRequired('Vyplňte kontrolní heslo.');
-        $form->addEmail('email', 'Email')
+        $form->addEmail('email')
                 ->addRule(Form::MIN_LENGTH, 'E-mail musí mít alespoň %d znaků.',6)
                 ->addRule(Form::MAX_LENGTH, 'E-mail může mít maximálně %d znaků.',40)
                 ->addRule(Form::EMAIL, 'Musíte zadat platnou emailovou adresu.')
                 ->setRequired('Vyplňte svůj e-mail.');
-        $form->addEmail('checkemail', 'Email znovu')
+        $form->addEmail('checkemail')
                 ->addRule(Form::MIN_LENGTH, 'Kontrolní e-mail musí mít alespoň %d znaků.',6)
                 ->addRule(Form::MAX_LENGTH, 'Kontrolní e-mail může mít maximálně %d znaků.',40)
                 ->addRule(Form::EMAIL, 'Musíte zadat platnou emailovou adresu.')
                 ->setRequired('Vyplňte kontrolní e-mail.');
         $form->addSubmit('rsubmit', 'Registrovat');
-        $form->onError[]= function($form)
+        $form->onError[] = function($form)
         {
             foreach($form->errors as $error)
             {
@@ -103,27 +103,27 @@ class HeaderControl extends Control
             $this->presenter->redirect('this');
         };
         $form->onValidate[] = function ($form) {
-            $error=FALSE;
-            $name=$this->appmodel->checkName($form['rusername']->value);
-            $email=$this->appmodel->checkMail($form['email']->value);
+            $error = FALSE;
+            $name = $this->appmodel->checkName($form['rusername']->value);
+            $email = $this->appmodel->checkMail($form['email']->value);
             if($name)
             {
-                $error=TRUE;
+                $error = TRUE;
                 $this->presenter->flashMessage('Účet se zadaným uživatelským jménem již existuje.','errors');
             }
             if($email)
             {
-                $error=TRUE;
+                $error = TRUE;
                 $this->presenter->flashMessage('Účet se zadanou emailovou adresou již existuje.','errors');
             }
             if($form['rpassword']->value != $form['checkpassword']->value)
             {
-                $error=TRUE;
+                $error = TRUE;
                 $this->presenter->flashMessage('Hesla se musí shodovat.','errors');
             }
             if($form['email']->value != $form['checkemail']->value)
             {
-                $error=TRUE;
+                $error = TRUE;
                 $this->presenter->flashMessage('Emaily se musí shodovat.','errors');
             }
             if($error)
@@ -149,7 +149,7 @@ class HeaderControl extends Control
     }
     public function registerFormSucceeded($form, $values)
     {
-        $registered=$this->appmodel->register($values);
+        $registered = $this->appmodel->register($values);
         if($registered == 'succes')
         {
             $this->presenter->flashMessage('Byl jste úspěšně registrován.','success');

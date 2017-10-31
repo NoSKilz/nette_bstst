@@ -22,7 +22,7 @@ class Authenticator implements NS\IAuthenticator
     function authenticate(array $credentials)
     {
         list($username,$password) = $credentials;
-        $row=$this->database->table('user')
+        $row = $this->database->table('user')
             ->where('user_name', $username)->fetch();
         if(!$row)
         {

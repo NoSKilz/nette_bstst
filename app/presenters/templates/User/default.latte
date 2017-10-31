@@ -1,0 +1,48 @@
+{* Latte template *}
+{block header}
+{control header}
+{/block}
+{block content}
+<div id="product">
+    <div id="interface-container">
+        <form n:name=changeEmailForm id="new-mail">
+            <fieldset>
+                <legend>Změna e-mailu</legend>
+                <label for="n-mail">
+                    Nový email
+                </label>    
+                <input n:name=nemail id="n-mail" placeholder="Nový e-mail" maxlength="40" minlength="6" required/>
+                <label for="n-mail-c">
+                    Nový email znovu
+                </label>    
+                <input n:name=nemailc id="n-mail-c" placeholder="Nový e-mail znovu" maxlength="40" minlength="6" required/>
+                <label for="e-password">
+                    Heslo
+                </label>    
+                <input n:name=epassword id="e-password" placeholder="Heslo" minlength="4" required/>
+                <input n:name=esubmit id="n-e-submit"/>
+            </fieldset>
+        </form>  
+        <form n:name=changePassForm id="new-pass">
+            <fieldset>
+                <legend>Změna hesla</legend>
+                <label for="n-pass">
+                    Nové heslo
+                </label>    
+                <input n:name=npassword id="n-pass" placeholder="Nové heslo" minlength="4" required/>
+                <label for="n-pass-c">
+                    Nové heslo znovu
+                </label>    
+                <input n:name=npasswordc id="n-pass-c" placeholder="Nové heslo znovu" minlength="4" required/>
+                <label for="o-password">
+                    Staré heslo
+                </label>    
+                <input n:name=opassword id="o-password" placeholder="Staré heslo" minlength="4" required/>
+                <input n:name=psubmit id="n-p-submit"/>
+            </fieldset>
+        </form> 
+    </div>
+</div>
+{control newgames}
+{control bestgames}
+{/block}
